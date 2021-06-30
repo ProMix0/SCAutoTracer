@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31105.61
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCAutoTracer", "SCAutoTracer\SCAutoTracer.csproj", "{2918106C-FFFB-4138-8C7D-FC191F578AC9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2918106C-FFFB-4138-8C7D-FC191F578AC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2918106C-FFFB-4138-8C7D-FC191F578AC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2918106C-FFFB-4138-8C7D-FC191F578AC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2918106C-FFFB-4138-8C7D-FC191F578AC9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A22056C3-4FD7-4F09-A596-7953A515CC23}
+	EndGlobalSection
+EndGlobal

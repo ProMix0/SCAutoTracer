@@ -1,0 +1,5 @@
+D:\Projects\SCAutoTracer\SCAutoTracer\bin\Debug\net5.0-windows\publish\SCAutoTracer.exe
+D:\Projects\SCAutoTracer\SCAutoTracer\bin\Debug\net5.0-windows\publish\SCAutoTracer.dll
+D:\Projects\SCAutoTracer\SCAutoTracer\bin\Debug\net5.0-windows\publish\SCAutoTracer.deps.json
+D:\Projects\SCAutoTracer\SCAutoTracer\bin\Debug\net5.0-windows\publish\SCAutoTracer.runtimeconfig.json
+D:\Projects\SCAutoTracer\SCAutoTracer\bin\Debug\net5.0-windows\publish\SCAutoTracer.pdb
