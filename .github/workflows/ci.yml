@@ -12,6 +12,9 @@ defaults:
 jobs:
   dotnetbuildandtest:
     runs-on: windows-2019
+    
+    env:
+      LOGS: logs.log
 
     steps:
       - uses: actions/checkout@v2
@@ -30,16 +33,16 @@ jobs:
 
           declare -i SUCCESS=0
           declare -i SEVERAL_ERRORS_IN_CSHARP_CODE=1
-          logs='logs.log'
-          jb inspectcode SCAutoTracer.sln -s=warning -o="$logs"
-          grep '<Issues />' "$logs" || exit "$SEVERAL_ERRORS_IN_CSHARP_CODE"
+          jb inspectcode SCAutoTracer.sln -s=warning -o="$LOGS"
+          grep '<Issues />' "$LOGS" || exit "$SEVERAL_ERRORS_IN_CSHARP_CODE"
           exit "$SUCCESS"
       
       - name: Upload ReSharper Logs
+        if: always()
         uses: actions/upload-artifact@v2
         with:
           name: resharper-logs
-          path: logs.log
+          path: ${{ env.LOGS }}
   
   markdowntest:
     runs-on: windows-2019
