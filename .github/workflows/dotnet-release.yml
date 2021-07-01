@@ -1,0 +1,29 @@
+name: .NET Core Desktop
+
+on:
+  [release]
+
+jobs:
+
+  build:
+
+    runs-on: windows-latest 
+                             
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+
+    
+    - name: Create the app package
+      run: dotnet publish -r win-x64 —self-contained=false /p:PublishSingleFile=true --output tempOutput
+
+    - name: Upload to Release exe
+      uses: JasonEtco/upload-to-release@v0.1.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+      with:
+        args: tempOutput/SCAutoTracer.exe application/octet-stream
