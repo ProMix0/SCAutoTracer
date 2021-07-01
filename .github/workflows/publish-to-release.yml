@@ -1,7 +1,8 @@
 name: PublishToRelease
 
 on:
-  [release]
+  release:
+  workflow_dispatch:
 
 jobs:
 
