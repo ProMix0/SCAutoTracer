@@ -49,9 +49,10 @@ jobs:
 
       - name: Lint
         run: |
+          shopt -s globstar
           npm install -g markdownlint-cli2
 
           declare -i SUCCESS=0
           declare -i SEVERAL_ERRORS_IN_MARKDOWN_CODE=1
-          markdownlint-cli2 *.md || exit "$SEVERAL_ERRORS_IN_MARKDOWN_CODE"
+          markdownlint-cli2 **/*.md || exit "$SEVERAL_ERRORS_IN_MARKDOWN_CODE"
           exit "$SUCCESS"
