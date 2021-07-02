@@ -1,0 +1,51 @@
+name: PublishToRelease
+
+on:
+  release:
+  workflow_dispatch:
+
+jobs:
+
+  dotnet-build:
+
+    runs-on: windows-latest 
+                             
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+        
+    - name: Create the app package
+      run: dotnet publish SCAutoTracer.sln -r win-x64 --no-self-contained /p:PublishSingleFile=true --output tempOutput
+      
+    - name: Upload build 
+      uses: actions/upload-artifact@v2
+      with: 
+        name: SCAutoTracer
+        path: tempOutput/SCAutoTracer.exe
+        
+  release:
+    runs-on: ubuntu-latest 
+    needs: [dotnet-build]
+    steps:
+    
+      - name: Download
+        uses: actions/download-artifact@v2
+        with:
+          name: SCAutoTracer
+          path: tempOutput
+          
+      - name: Temp
+        run: |
+          sudo apt uptate && sudo apt install tree
+          tree -a
+    
+      - name: Upload to Release exe
+        uses: JasonEtco/upload-to-release@v0.1.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+        with:
+          args: tempOutput/SCAutoTracer.exe application/octet-stream
