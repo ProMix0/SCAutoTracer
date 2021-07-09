@@ -60,7 +60,9 @@ namespace SCAutoTracer
             }
 
             List<TimeAndIP> list = new();
-            foreach (var line in File.ReadAllLines(logPath.Text))
+            FileStream stream = new(logPath.Text, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            using StreamReader reader=new(stream);
+            foreach (var line in reader.ReadToEnd().Split("\r\n".ToCharArray()))
             {
                 if (!regexMatch.IsMatch(line)) continue;
 
