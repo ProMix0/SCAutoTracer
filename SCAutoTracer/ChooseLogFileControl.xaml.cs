@@ -26,7 +26,10 @@ namespace SCAutoTracer
 
         private static readonly Regex regexMatch = new(@"\w*connected\sto\s[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+\|[0-9]+\w*");
         private static readonly Regex regexIP = new(@"\w*[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+\w*");
-        private static readonly Regex regexTime = new(@"[0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{3}\w*");
+        private static readonly Regex regexFullTime = new(@"[0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{3}\w*");
+        private static readonly Regex regexShortTime = new(@"[0-9]{2}:[0-9]{2}\w*");
+
+        private static readonly Regex regexExceptions= new(@"\w*DR_NETWORK_FAIL\w*|\w*NETWORK_FAIL\w*|\w*CLIENT_COULD_NOT_CONNECT\w*");
 
         public ChooseLogFileControl()
         {
@@ -59,23 +62,30 @@ namespace SCAutoTracer
                 return;
             }
 
-            List<TimeAndIP> list = new();
+            List<TimeAndIP> timeList = new();
+
             FileStream stream = new(logPath.Text, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             using StreamReader reader=new(stream);
-            foreach (var line in reader.ReadToEnd().Split("\r\n".ToCharArray()))
+            string[] lines = reader.ReadToEnd().Split("\r\n".ToCharArray());
+
+            for (int i=0;i<lines.Length; i++)
             {
-                if (!regexMatch.IsMatch(line)) continue;
+                string line = lines[i];
 
-                Match time = regexTime.Match(line);
-                if (!time.Success) continue;
+                if (!regexExceptions.IsMatch(line)) continue;
 
-                Match ip = regexIP.Match(line);
-                if (!ip.Success) continue;
-
-                list.Add(new TimeAndIP(time.Value, ip.Value));
+                Match time = regexShortTime.Match(line);
+                if (time.Success && !timeList.Any(o => o.Time.Equals(time.Value)))
+                {
+                    Match ip= regexIP.Match( lines.Take(i + 1).Reverse().First(str => regexMatch.IsMatch(str)));
+                    if(ip.Success)
+                    {
+                        timeList.Add(new(time.Value,ip.Value));
+                    }
+                }
             }
 
-            nestedContent.Content = new ChooseIPControl(list);
+            nestedContent.Content = new ChooseIPControl(timeList);
         }
 
         private void ShowDialog(object sender, RoutedEventArgs e)
